@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pilotflyingj.codechallenge.network.models.ApiSite
 import com.pilotflyingj.codechallenge.network.util.ApiResponse
 import com.pilotflyingj.codechallenge.repository.MapRepository
 import com.pilotflyingj.codechallenge.repository.models.Site
@@ -27,8 +26,8 @@ class MapsViewModel @ViewModelInject constructor(
     fun getApiResponse(): LiveData<ApiResponse<List<Site>>> = _apiResponse
 
     @ExperimentalSerializationApi
-    fun getLocations(jsonFileString: String) {
-        mapRepository.getLocations(jsonFileString).onEach {
+    fun getLocations() {
+        mapRepository.getLocations().onEach {
             _apiResponse.value = it
             when(it) {
                 is ApiResponse.Loading -> {
