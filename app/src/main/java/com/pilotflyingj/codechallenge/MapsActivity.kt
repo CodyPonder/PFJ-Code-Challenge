@@ -14,7 +14,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_maps)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         (supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment)?.let {
-            it.getMapAsync(this)
+//            it.getMapAsync(this)
         }
     }
 
