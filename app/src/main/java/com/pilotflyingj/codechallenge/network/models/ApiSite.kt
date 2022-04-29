@@ -4,6 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ApiSite(
-    val name: String
+    val name: String,
 // TODO: add other fields here?
+    val latitude: Double,
+    val longitude: Double
 )
