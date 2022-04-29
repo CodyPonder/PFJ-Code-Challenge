@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.pilotflyingj.codechallenge.network.util.ApiResponse
 import com.pilotflyingj.codechallenge.viewmodel.MapsViewModel
@@ -33,6 +35,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         // TODO: subscribe to live data for view model so that markers get added
         // TODO: make sure rotation works
         getLocations(googleMap)
+	    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(39.828175, -98.5795), 3.5f))  // Center of United States
     }
 
 	/**
