@@ -31,9 +31,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        // TODO: center camera on the entire USA
-        // TODO: subscribe to live data for view model so that markers get added
-        // TODO: make sure rotation works
         getLocations(googleMap)
 	    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(39.828175, -98.5795), 3.5f))  // Center of United States
     }

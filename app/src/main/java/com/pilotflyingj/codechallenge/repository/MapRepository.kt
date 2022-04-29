@@ -14,8 +14,6 @@ import javax.inject.Inject
 class MapRepository @Inject constructor(
 	private val retrofitServiceProvider: RetrofitServiceProvider
 ) {
-	// TODO: pull the service in, run any business logic through here so that the view model is
-	// simply requesting data at this point
 
 	@ExperimentalSerializationApi
 	fun getLocations(): Flow<ApiResponse<List<Site>>> = flow {

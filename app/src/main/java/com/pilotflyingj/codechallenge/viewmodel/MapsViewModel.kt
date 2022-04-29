@@ -15,8 +15,6 @@ import kotlinx.serialization.ExperimentalSerializationApi
 class MapsViewModel @ViewModelInject constructor(
     private val mapRepository: MapRepository
 ) : ViewModel() {
-    // TODO call the repository's method to get location list. Dont export the API model to the view
-    // instead, use the model provided for the repo layer.
 
     private val _locations = MutableLiveData<List<Site>>()  // locations retrieved and stored for viewing
     private val _apiResponse = MutableLiveData<ApiResponse<List<Site>>>()    // status of api call for any UI changes

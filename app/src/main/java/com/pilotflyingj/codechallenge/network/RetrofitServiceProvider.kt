@@ -10,7 +10,7 @@ import javax.inject.Singleton
 class RetrofitServiceProvider @Inject constructor(
 	private val okHttpProvider: OkHttpProvider
 ) {
-	val locationServiceProvider by lazy {
+	val locationServiceProvider: LocationService by lazy {
 		Retrofit.Builder()
 			.baseUrl("https://raw.githubusercontent.com")
 			.addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
