@@ -32,17 +32,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         getLocations(googleMap)
-	    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(39.828175, -98.5795), 3.5f))  // Center of United States
+        googleMap.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(LatLng(39.828175, -98.5795), 3.5f)
+        )  // Center of United States
     }
 
-	/**
-	 * Calls the ViewModel to get locations of stations and adds their markers to the provided GoogleMap
-	 */
+    /**
+     * Calls the ViewModel to get locations of stations and adds their markers to the provided GoogleMap
+     */
     private fun getLocations(googleMap: GoogleMap) {
-        //todo: Combine the observers to remove them on either api fail or retrieve update
-
         // observe the retrieved locations
         mapsViewModel.getRetrievedLocations().observe(this) {
+            mapsViewModel.getRetrievedLocations().removeObservers(this)
             it.forEach { site ->
                 googleMap.addMarker(
                     MarkerOptions()
@@ -54,17 +55,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // observe the api response
         mapsViewModel.getApiResponse().observe(this) {
-			when (it) {
-				is ApiResponse.Loading -> {
-					Toast.makeText(this, "Loading Locations...", Toast.LENGTH_SHORT).show()
-				}
-				is ApiResponse.Error, is ApiResponse.Except -> {
-					Toast.makeText(this,"Failed to retrieve locations", Toast.LENGTH_SHORT).show()
-				}
-				else -> {}
-			}
+            when (it) {
+                is ApiResponse.Loading -> {
+                    Toast.makeText(this, "Loading Locations...", Toast.LENGTH_SHORT).show()
+                }
+                is ApiResponse.Error, is ApiResponse.Except -> {
+                    Toast.makeText(this, "Failed to retrieve locations", Toast.LENGTH_SHORT).show()
+                    mapsViewModel.getApiResponse().removeObservers(this)
+                    mapsViewModel.getRetrievedLocations().removeObservers(this)
+                }
+                else -> {
+                    mapsViewModel.getApiResponse().removeObservers(this)
+                }
+            }
         }
 
-		mapsViewModel.getLocations()
+        mapsViewModel.getLocations()
     }
 }
