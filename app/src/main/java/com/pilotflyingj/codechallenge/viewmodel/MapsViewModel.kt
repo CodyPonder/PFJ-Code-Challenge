@@ -20,6 +20,7 @@ class MapsViewModel @ViewModelInject constructor(
 
     private val _locations = MutableLiveData<List<Site>>()  // locations retrieved and stored for viewing
     private val _apiResponse = MutableLiveData<ApiResponse<List<Site>>>()    // status of api call for any UI changes
+    private var didRetrieveLocations = false
 
     fun getRetrievedLocations(): LiveData<List<Site>> = _locations
 
@@ -27,25 +28,28 @@ class MapsViewModel @ViewModelInject constructor(
 
     @ExperimentalSerializationApi
     fun getLocations() {
-        mapRepository.getLocations().onEach {
-            _apiResponse.value = it
-            when(it) {
-                is ApiResponse.Loading -> {
-                    // update the UI to show the user that the locations are currently being retrieved
+        if (!didRetrieveLocations) {
+            didRetrieveLocations = true
+            mapRepository.getLocations().onEach {
+                _apiResponse.value = it
+                when (it) {
+                    is ApiResponse.Loading -> {
+                        // update the UI to show the user that the locations are currently being retrieved
+                    }
+                    is ApiResponse.Success -> {
+                        // locations have successfully been retrieved
+                        _locations.value = it.data
+                    }
+                    is ApiResponse.Error -> {
+                        // update the UI to show the user there was an error retrieving the locations
+                        // due to getting error code do anything special if required based on the code
+                    }
+                    is ApiResponse.Except -> {
+                        // update the UI to show the user there was an error retrieving the locations
+                        // log the event and exception for correction
+                    }
                 }
-                is ApiResponse.Success -> {
-                    // locations have successfully been retrieved
-                    _locations.value = it.data
-                }
-                is ApiResponse.Error -> {
-                    // update the UI to show the user there was an error retrieving the locations
-                    // due to getting error code do anything special if required based on the code
-                }
-                is ApiResponse.Except -> {
-                    // update the UI to show the user there was an error retrieving the locations
-                    // log the event and exception for correction
-                }
-            }
-        }.launchIn(viewModelScope)
+            }.launchIn(viewModelScope)
+        }
     }
 }
