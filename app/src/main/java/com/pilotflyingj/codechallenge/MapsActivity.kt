@@ -49,6 +49,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     MarkerOptions()
                         .position(site.location)
                         .title(site.name)
+                        .snippet(site.address)
                 )
             }
         }

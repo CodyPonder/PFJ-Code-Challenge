@@ -4,5 +4,6 @@ import com.google.android.gms.maps.model.LatLng
 
 data class Site(
     val name: String,
+    val address: String,
     val location: LatLng
 )
