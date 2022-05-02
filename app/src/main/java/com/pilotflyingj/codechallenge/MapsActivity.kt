@@ -1,7 +1,7 @@
 package com.pilotflyingj.codechallenge
 
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -10,7 +10,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.pilotflyingj.codechallenge.network.util.ApiResponse
 import com.pilotflyingj.codechallenge.viewmodel.MapsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -43,6 +42,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun getLocations(googleMap: GoogleMap) {
         // observe the retrieved locations
         mapsViewModel.getRetrievedLocations().observe(this) {
+            Log.d("MapsActivity", "it: $it")
             mapsViewModel.getRetrievedLocations().removeObservers(this)
             it.forEach { site ->
                 googleMap.addMarker(
@@ -50,23 +50,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                         .position(site.location)
                         .title(site.name)
                 )
-            }
-        }
-
-        // observe the api response
-        mapsViewModel.getApiResponse().observe(this) {
-            when (it) {
-                is ApiResponse.Loading -> {
-                    Toast.makeText(this, "Loading Locations...", Toast.LENGTH_SHORT).show()
-                }
-                is ApiResponse.Error, is ApiResponse.Except -> {
-                    Toast.makeText(this, "Failed to retrieve locations", Toast.LENGTH_SHORT).show()
-                    mapsViewModel.getApiResponse().removeObservers(this)
-                    mapsViewModel.getRetrievedLocations().removeObservers(this)
-                }
-                else -> {
-                    mapsViewModel.getApiResponse().removeObservers(this)
-                }
             }
         }
 
