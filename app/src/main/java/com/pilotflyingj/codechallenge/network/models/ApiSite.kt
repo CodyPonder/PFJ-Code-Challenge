@@ -1,14 +1,14 @@
 package com.pilotflyingj.codechallenge.network.models
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class ApiSite(
-    @SerializedName("StoreName")
+    @SerialName("StoreName")
     val name: String,
-    @SerializedName("Latitude")
+    @SerialName("Latitude")
     val latitude: Double,
-    @SerializedName("Longitude")
+    @SerialName("Longitude")
     val longitude: Double
 )
