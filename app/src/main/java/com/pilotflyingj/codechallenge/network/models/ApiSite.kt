@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 data class ApiSite(
     @SerialName("StoreName")
     val name: String,
+    @SerialName("Address")
+    val address: String,
     @SerialName("Latitude")
     val latitude: Double,
     @SerialName("Longitude")
